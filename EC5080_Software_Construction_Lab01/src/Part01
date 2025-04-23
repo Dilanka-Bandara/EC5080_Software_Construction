@@ -1,0 +1,194 @@
+//2022e048
+//Bandara H.G.T.d
+//Lab 01
+// I am going to do all the parts in this page
+
+
+
+
+class Student {
+    // Part 1: Create the attributes for the student
+    int id;
+    String name;
+    int age;
+    String grade;
+    String regNum;
+    String district;
+    static int totalStudents; // Static variable to keep track of the total number of students
+
+    // Part 1: Constructor to initialize attributes
+    Student(int id, String name, int age, String grade, String regNum, String district) {
+        this.id = id;
+        this.name = name;
+        // Part 1: trying  Handle exception if age is negative
+        if (age < 0) {
+            throw new IllegalArgumentException("Age cannot be negative");
+        }
+        this.age = age;
+        this.grade = grade;
+        this.regNum = regNum;
+        this.district = district;
+        totalStudents++; // Increment total students when a new student is created
+    }
+
+    // Default constructor for null values
+    public Student() {
+        this.id = 0;
+        this.name = "None";
+        this.age = 0;
+        this.grade = "-";
+        this.regNum = "-";
+        this.district = "-";
+    }
+
+    // Part 1: Method to display student details
+    void displayStudentDetails() {
+        System.out.println("Student ID: " + id);
+        System.out.println("Name: " + name);
+        System.out.println("Age: " + age);
+        System.out.println("Grade: " + grade);
+        System.out.println("Reg Number: " + regNum);
+        System.out.println("District: " + district);
+        System.out.println("----------------------------------------------------------");
+    }
+
+    // Part 3: Static method to display the total number of students
+    static void displayTotalStudents() {
+        System.out.println("Total number of students: " + totalStudents);
+    }
+
+    // Part 3: Method to update age and show variable scope
+    void updateAge(int newAge) {
+        int localAge = newAge; // Local variabale
+        this.age = localAge;  // Instance variabal
+    }
+
+    // Part 3: Method to resolve namespace conflicts using 'this'
+    void namespaceConflictExample(String name) {
+        this.name = name; // 'this' resolves the conflict between the parameter and instance variable
+    }
+    //tried to use Override functiomn
+    // Part 4: Method for garbage collection
+    @Override
+    protected void finalize() throws Throwable {
+        System.out.println("Student object " + name + " is being garbage collected.");
+        super.finalize();
+    }
+}
+
+class StudentMod extends Student {
+
+    // Part 2: Categorizing students based on their grade
+    void categorizeStudent() {
+        if (grade.equals("A") || grade.equals("A+")) {
+            System.out.println(name + " is categorized as: Excellent");
+        } else if (grade.equals("A-") || grade.equals("B+")) {
+            System.out.println(name + " is categorized as: Good");
+        } else if (grade.equals("B") || grade.equals("B-")) {
+            System.out.println(name + " is categorized as: Average");
+        } else {
+            System.out.println(name + " is categorized as: Needs Improvement");
+        }
+    }
+
+    // Part 2: Using switch-case for categorization
+    void categorizeStudentSwitch() {
+        switch (grade) {
+            case "A":
+            case "A+":
+                System.out.println(name + " is categorized as: Excellent");
+                break;
+            case "A-":
+            case "B+":
+                System.out.println(name + " is categorized as: Good");
+                break;
+            case "B":
+            case "B-":
+                System.out.println(name + " is categorized as: Average");
+                break;
+            default:
+                System.out.println(name + " is categorized as: Needs Improvement");
+        }
+    }
+}
+
+class StudentListProcessor {
+    // Part 2: Using different loops to process a list of students
+    void processStudentsUsingLoops(Student[] students) {
+        // a. Use a for loop to print all students
+        System.out.println("Displaying all students using for loop:");
+        for (Student student : students) {
+            student.displayStudentDetails();
+        }
+
+        // b. Use a while loop to count and print students with grades above a certain threshold
+        System.out.println("Displaying students with grades above 'B' using while loop:");
+        int count = 0;
+        int threshold = 80; // grade 'B' or lower corresponds to a score less than 80
+        while (count < students.length) {
+            if (students[count].grade.equals("A") || students[count].grade.equals("A+")) {
+                students[count].displayStudentDetails();
+            }
+            count++;
+        }
+
+        // c. Use a do-while loop to print student details until a condition is met
+        System.out.println("Displaying student details until a condition is met using do-while loop:");
+        int i = 0;
+        do {
+            students[i].displayStudentDetails();
+            i++;
+        } while (i < students.length && students[i - 1].age < 25); // Condition: Age less than 25
+    }
+}
+
+class StudentMemoryDemo {
+    // Part 4: Create and remove student objects to demonstrate garbage collection
+    public static void main(String[] args) {
+        // Create Student objects
+        Student num1 = new Student(1234, "Bandara H.G.T.D.", 24, "A", "2022e048", "Nuwara Eliya");
+        Student num2 = new Student(1235, "Wimalasooriye G.H.N.P.", 23, "A", "2022e039", "Mathale");
+        Student num3 = new Student(1236, "Kumarage H.R.", 22, "B+", "2022e050", "Colombo");
+        Student num4 = new Student(1237, "Wijesinghe A.P.", 25, "B", "2022e051", "Kandy");
+
+        // Part 1:Display student details
+        num1.displayStudentDetails();
+        num2.displayStudentDetails();
+        num3.displayStudentDetails();
+        num4.displayStudentDetails();
+
+        // Parrt 2: Categorize students using if-else
+        StudentMod mod1 = new StudentMod();
+        mod1.name = "Bandara H.G.T.D.";
+        mod1.grade = "A";
+        mod1.categorizeStudent();  // Excellent categarize
+
+        StudentMod mod2 = new StudentMod();
+        mod2.name = "Wimalasooriye G.H.N.P.";
+        mod2.grade = "A-";
+        mod2.categorizeStudent();  // Good categarise
+
+        // Part 2: Categorize students using switch-case
+        mod1.categorizeStudentSwitch();
+        mod2.categorizeStudentSwitch();
+
+        // Part 3: Demonstrate scope and static variable usage
+        Student.displayTotalStudents();
+
+        // Update age using method
+        num3.updateAge(23);
+
+        // Show instance variable modification with namespace conflict example
+        num3.namespaceConflictExample("Wijesinghe A.P.");
+
+        // Simulate garbage collection (make objects eligible for garbage collection)
+        num1 = null;
+        num2 = null;
+        num3 = null;
+        num4 = null;
+
+        // Request garbage collection
+        System.gc();
+    }
+}
+

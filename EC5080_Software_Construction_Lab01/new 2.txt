@@ -1,0 +1,54 @@
+class Student
+{   //Create the attributes to the student
+    int id;
+    String name;
+    int age;
+    String grade;
+    String RegNum;
+    String District;
+
+    //A constructor for the initialize the attributes
+    Student(int id,String name,int age, String grade,String RegNum,String District)
+    {
+        this.id = id;
+        this.name = name;
+        this.age = age;
+        this.grade = grade;
+        this.RegNum = RegNum;
+        this.District = District;
+
+    }
+
+    public Student() {
+        int id = 0000;
+        String name = "None";
+        int age = 0;
+        String grade = "-";
+        String RegNum= "-";
+        String District = "-";
+
+    }
+
+
+    void displayStudentDetails()
+    {
+        System.out.println("The id num of the student:" + id);
+        System.out.println("The name of the particular student is :" + name);
+        System.out.println("The age of the particular Student is "+ age);
+        System.out.println("The grade of the particular Student is "+ grade);
+        System.out.println("The Reg Number of the particular Student is "+ RegNum);
+        System.out.println("The District of the particular student is "+District);
+    }
+
+
+}
+
+
+
+class Scratch {
+    public static void main(String[] args) {
+
+    Student num1 = new Student(1234,"Bandara",23,"A","2022e048","Nuwara Eliya");
+        
+    }
+}
