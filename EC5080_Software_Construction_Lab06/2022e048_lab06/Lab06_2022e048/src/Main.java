@@ -2,9 +2,9 @@ import java.io.*;
 import java.util.regex.*;
 import javax.xml.parsers.*;
 import org.w3c.dom.*;
-//import com.google.gson.*;
+import com.google.gson.*;
 
-// Custom extxceptions 
+// Custom Exceptions
 class MalformedHTMLBlockException extends Exception {
     public MalformedHTMLBlockException(String message) {
         super(message);
@@ -33,7 +33,7 @@ public class Main {
             String line;
 
             while ((line = reader.readLine()) != null) {
-                content.append(line);
+                content.append(line.trim());
             }
             reader.close();
 
@@ -63,7 +63,7 @@ public class Main {
         } catch (MalformedHTMLBlockException e) {
             System.err.println("Malformed HTML: " + e.getMessage());
         } catch (IOException e) {
-            e.printStackTrace();
+            System.err.println("Error reading sample.html: " + e.getMessage());
         }
     }
 
@@ -71,6 +71,11 @@ public class Main {
         System.out.println("\n--- Task 2: XML Processing ---\n");
         try {
             File inputFile = new File("catalog.xml");
+            if (!inputFile.exists()) {
+                System.err.println("catalog.xml file not found.");
+                return;
+            }
+
             PrintWriter validWriter = new PrintWriter("parsed_books.txt");
             PrintWriter errorWriter = new PrintWriter("xml_errors.log");
 
@@ -85,9 +90,9 @@ public class Main {
                 try {
                     Element book = (Element) books.item(i);
                     String id = book.getAttribute("id");
-                    String title = book.getElementsByTagName("title").item(0).getTextContent();
-                    String author = book.getElementsByTagName("author").item(0).getTextContent();
-                    String priceStr = book.getElementsByTagName("price").item(0).getTextContent();
+                    String title = book.getElementsByTagName("title").item(0).getTextContent().trim();
+                    String author = book.getElementsByTagName("author").item(0).getTextContent().trim();
+                    String priceStr = book.getElementsByTagName("price").item(0).getTextContent().trim();
 
                     if (title.isEmpty() || author.isEmpty()) {
                         throw new InvalidBookEntryException("Title or author is empty");
@@ -98,10 +103,11 @@ public class Main {
                         throw new InvalidBookEntryException("Invalid price: " + priceStr);
                     }
 
-                    validWriter.println(id + " - " + title + " by " + author + " ($" + price + ")");
-                    System.out.println(id + " - " + title + " by " + author + " ($" + price + ")");
+                    String entry = id + " - " + title + " by " + author + " ($" + price + ")";
+                    validWriter.println(entry);
+                    System.out.println(entry);
 
-                } catch (InvalidBookEntryException | NumberFormatException e) {
+                } catch (Exception e) {
                     errorWriter.println("Error in book entry: " + e.getMessage());
                 }
             }
@@ -110,14 +116,20 @@ public class Main {
             errorWriter.close();
 
         } catch (Exception e) {
-            e.printStackTrace();
+            System.err.println("Error processing XML: " + e.getMessage());
         }
     }
 
     public static void processJSON() {
         System.out.println("\n--- Task 3: JSON Processing ---\n");
         try {
-            BufferedReader reader = new BufferedReader(new FileReader("users.json"));
+            File jsonFile = new File("users.json");
+            if (!jsonFile.exists()) {
+                System.err.println("users.json file not found.");
+                return;
+            }
+
+            BufferedReader reader = new BufferedReader(new FileReader(jsonFile));
             PrintWriter errorWriter = new PrintWriter("json_errors.log");
 
             JsonElement jsonElement = JsonParser.parseReader(reader);
@@ -152,7 +164,7 @@ public class Main {
             reader.close();
 
         } catch (Exception e) {
-            e.printStackTrace();
+            System.err.println("Error processing JSON: " + e.getMessage());
         }
     }
 
