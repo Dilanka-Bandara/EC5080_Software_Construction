@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<library>
+    <book>
+        <title>Effective Java</title>
+        <author>Joshua Bloch</author>
+        <price>45.99</price>
+        <edition>3rd</edition>
+    </book>
+    <book>
+        <title>Clean Code</title>
+        <author>Robert C. Martin</author>
+        <price>39.99</price>
+        <edition>1st</edition>
+    </book>
+    <book>
+        <title>Introduction to Algorithms</title>
+        <author>Thomas H. Cormen</author>
+        <price>89.50</price>
+        <edition>3rd</edition>
+    </book>
+    <book>
+        <title>Design Patterns</title>
+        <author>Erich Gamma et al.</author>
+        <price>54.95</price>
+        <edition>1st</edition>
+    </book>
+</library>
